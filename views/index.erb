@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Directorio Docketwise</title>
+    <style>
+        body { font-family: sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; }
+        h1 { text-align: center; color: #2c3e50; }
+        .boton-nuevo { display: block; width: 200px; margin: 20px auto; text-align: center; background: #27ae60; color: white; padding: 10px; text-decoration: none; border-radius: 5px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { background: #34495e; color: white; padding: 10px; }
+        td { border-bottom: 1px solid #ddd; padding: 10px; text-align: center; }
+        tr:hover { background-color: #f5f5f5; }
+        .status-ok { color: green; font-weight: bold; }
+        .status-pending { color: orange; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>📂 Directorio de Visas</h1>
+    
+    <a href="/nuevo" class="boton-nuevo">+ Nuevo Solicitante</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Estado</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @lista_completa.each do |usuario| %>
+                <tr>
+                    <td><%= usuario.id %></td>
+                    <td><%= usuario.nombre %></td>
+                    <td>
+                        <% if usuario.aprobado %>
+                            <span class="status-ok">Aprobado</span>
+                        <% else %>
+                            <span class="status-pending">Revisión</span>
+                        <% end %>
+                    </td>
+                    <td>
+                        <a href="/usuarios/<%= usuario.id %>">Ver Perfil ➡</a>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+    </table>
+
+    <% if @lista_completa.empty? %>
+        <p style="text-align: center; color: gray;">No hay nadie en la base de datos.</p>
+    <% end %>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nuevo Registro</title>
+    <style>
+        body { font-family: sans-serif; padding: 50px; background: #f4f4f9; text-align: center; }
+        form { background: white; padding: 30px; display: inline-block; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        input { display: block; margin: 10px auto; padding: 10px; width: 200px; border: 1px solid #ccc; border-radius: 5px; }
+        button { background: #2c3e50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #34495e; }
+    </style>
+</head>
+<body>
+    <h1>📝 Nuevo Solicitante</h1>
+    
+    <form action="/registrar" method="post">
+        
+        <label>ID del Solicitante:</label>
+        <input type="number" name="id_form" placeholder="Ej: 700" required>
+        
+        <label>Nombre Completo:</label>
+        <input type="text" name="nombre_form" placeholder="Ej: Laura Developer" required>
+        
+        <button type="submit">Guardar en Base de Datos</button>
+    </form>
+    
+    <br><br>
+    <a href="/">Cancelar</a>
+</body>
+</html>
