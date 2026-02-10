@@ -1,6 +1,7 @@
 # app.rb
 require 'sinatra'
 require_relative 'lib/usuarios' # Traemos tu lógica de negocio
+require 'prawn'
 
 # Configuración para que sepa dónde buscar archivos
 set :bind, '0.0.0.0'
@@ -95,4 +96,29 @@ post '/usuarios/:id/borrar' do
   
   # Como ya no existe, no podemos quedarnos aquí. Nos vamos al inicio.
   redirect "/"
+end
+
+get '/usuarios/:id/descargar' do
+  @usuario = Solicitante.find(params[:id])
+
+  # Le decimos al navegador que esto NO es HTML, es un PDF
+  content_type 'application/pdf'
+  attachment "expediente_#{@usuario.nombre}.pdf" # Para que lo descargue en vez de abrirlo
+
+  # Generamos el documento
+  pdf = Prawn::Document.new
+  pdf.text "DOCKETWISE (Versión Hugo)", size: 20, style: :bold, align: :center
+  pdf.move_down 20
+  pdf.text "Expediente Oficial de Inmigración", align: :center
+  pdf.move_down 50
+
+  pdf.text "ID del Solicitante: #{@usuario.id}"
+  pdf.text "Nombre Completo: #{@usuario.nombre}", size: 16
+  pdf.text "Estado Actual: #{@usuario.aprobado ? 'APROBADO' : 'EN REVISIÓN'}", color: @usuario.aprobado ? [0, 100, 0, 0] : [100, 0, 0, 0]
+
+  pdf.move_down 50
+  pdf.text "Firma del Oficial: _______________________"
+
+  # Enviamos el PDF al navegador
+  pdf.render
 end

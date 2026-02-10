@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Perfil de <%= @usuario.nombre %></title> <style>
+        body { font-family: 'Helvetica', sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; padding-top: 50px; }
+        .ficha { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 300px; text-align: center; }
+        .aprobado { color: green; font-weight: bold; }
+        .rechazado { color: red; font-weight: bold; }
+        h1 { margin-bottom: 5px; color: #333; }
+        .id-badge { background: #eee; padding: 5px 10px; border-radius: 15px; font-size: 0.8em; color: #666; }
+    </style>
+</head>
+<body>
+
+    <div class="ficha">
+        <span class="id-badge">ID: <%= @usuario.id %></span>
+        
+        <h1><%= @usuario.nombre %></h1>
+        
+        <hr>
+        
+        <p>Estado de la Solicitud:</p>
+        
+        <% if @usuario.aprobado %>
+            <div class="aprobado">
+                <h1>✅ APROBADO</h1>
+                <p>Bienvenido a bordo.</p>
+            </div>
+        <% else %>
+            <div class="rechazado">
+                <h1>⏳ EN REVISIÓN</h1>
+                <p>Falta validación del cónsul.</p>
+            </div>
+        <% end %>
+
+        <br><hr><br>
+        
+        <div style="display: flex; justify-content: space-around;">
+            
+            <form action="/usuarios/<%= @usuario.id %>/toggle" method="post">
+                <% if @usuario.aprobado %>
+                    <button type="submit" style="background: orange; border: none; padding: 10px; cursor: pointer; color: white; border-radius: 5px;">
+                        ⏪ Revocar Visa
+                    </button>
+                <% else %>
+                    <button type="submit" style="background: green; border: none; padding: 10px; cursor: pointer; color: white; border-radius: 5px;">
+                        ✅ Aprobar Visa
+                    </button>
+                <% end %>
+            </form>
+
+            <form action="/usuarios/<%= @usuario.id %>/borrar" method="post">
+                <button type="submit" style="background: red; border: none; padding: 10px; cursor: pointer; color: white; border-radius: 5px;" onclick="return confirm('¿Seguro que quieres borrar a esta persona?');">
+                    🗑️ Eliminar
+                </button>
+            </form>
+            
+        </div>
+        
+        
+
+        <br>
+        <a href="/usuarios/<%= @usuario.id %>/descargar" style="background: #3498db; color: white; padding: 10px; text-decoration: none; border-radius: 5px;">
+             📄 Descargar PDF Oficial
+        </a>
+        <a href="/">⬅ Volver al inicio</a>
+    </div>
+
+</body>
+</html>
